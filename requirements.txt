@@ -1,0 +1,13 @@
+pandas
+numpy
+matplotlib
+seaborn
+ipython
+jupyterlab
+kedro-datasets[pandas-csvdataset, pandas-exceldataset, pandas-parquetdataset]
+kedro-viz
+kedro[jupyter]
+notebook
+scikit-learn
+flask
+streamlit
