@@ -1,6 +1,22 @@
+"""
+This is a boilerplate pipeline 'data_science'
+generated using Kedro 0.19.10
+"""
+
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from scipy.stats import ks_2samp
+import pandas as pd
+from sklearn.pipeline import Pipeline
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.metrics import (
+    accuracy_score,
+    precision_score,
+    recall_score,
+    f1_score,
+    classification_report,
+)
 
 
 def data_loader(
@@ -92,3 +108,52 @@ def data_transformation(
     print(xtrain.shape, xtest.shape, ytrain.shape, ytest.shape)
 
     return xtrain, xtest, ytrain, ytest
+
+
+def metrics_score(y_test, y_pred):
+    accuracy = round(accuracy_score(y_test, y_pred), 2)
+    precision = round(precision_score(y_test, y_pred, average="weighted"), 2)
+    recall = round(recall_score(y_test, y_pred, average="weighted"), 2)
+    f1 = round(f1_score(y_test, y_pred, average="weighted"), 2)
+
+    return accuracy, precision, recall, f1
+
+
+def train_model(xtrain: pd.Series, ytrain: pd.Series) -> tuple:
+    """
+    Train the model and log it to MLflow, transition to Staging.
+    """
+    print(xtrain.shape, ytrain.shape)
+
+    model = Pipeline(
+        [
+            ("tfidf", TfidfVectorizer()),
+            ("gbc", GradientBoostingClassifier()),
+        ]
+    )
+
+    model.fit(xtrain, ytrain)
+
+    print(model)
+
+    return model
+
+
+def evaluate_model(model: Pipeline, xtest: pd.Series, ytest: pd.Series):
+    """
+    Evaluate the model on test data and log the evaluation metrics.
+    """
+    pred = model.predict(xtest)
+    accuracy, precision, recall, f1 = metrics_score(ytest, pred)
+
+    report = classification_report(ytest, pred, output_dict=True)
+
+    print(f"accuracy-{accuracy}, precision-{precision}, recall-{recall}, f1-{f1}")
+
+    # return accuracy
+    return {
+        "accuracy": accuracy,
+        "precision": precision,
+        "recall": recall,
+        "f1": f1,
+    }

@@ -4,10 +4,17 @@ matplotlib
 seaborn
 ipython
 jupyterlab
+kedro
 kedro-datasets[pandas-csvdataset, pandas-exceldataset, pandas-parquetdataset]
+kedro-datasets
 kedro-viz
 kedro[jupyter]
 notebook
 scikit-learn
+pyyaml
+mlflow
+kedro-mlflow
+black
 flask
 streamlit
+streamlit_tags

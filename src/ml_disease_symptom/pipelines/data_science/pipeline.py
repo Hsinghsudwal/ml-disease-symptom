@@ -1,10 +1,23 @@
-from kedro.pipeline import Pipeline, node, pipeline
+"""
+This is a boilerplate pipeline 'data_science'
+generated using Kedro 0.19.10
+"""
 
-from .nodes import data_loader, data_prep, data_validation, data_transformation
+from kedro.pipeline import Pipeline, pipeline, node
+from kedro.pipeline.modular_pipeline import pipeline
+
+from .nodes import (
+    data_loader,
+    data_prep,
+    data_validation,
+    data_transformation,
+    train_model,
+    evaluate_model,
+)
 
 
 def create_pipeline(**kwargs) -> Pipeline:
-    data_pipeline = pipeline(
+    return pipeline(
         [
             node(
                 func=data_loader,
@@ -30,7 +43,17 @@ def create_pipeline(**kwargs) -> Pipeline:
                 outputs=["xtrain", "xtest", "ytrain", "ytest"],
                 name="data_transformed_node",
             ),
+            node(
+                func=train_model,
+                inputs=["xtrain", "ytrain"],
+                outputs="model",
+                name="train_model_node",
+            ),
+            node(
+                func=evaluate_model,
+                inputs=["model", "xtest", "ytest"],
+                outputs="metics",
+                name="evaluate_model_node",
+            ),
         ]
     )
-
-    return data_pipeline
