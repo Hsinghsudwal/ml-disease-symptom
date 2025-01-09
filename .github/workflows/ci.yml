@@ -3,11 +3,11 @@ name: CI/CD Pipeline for Disease Symptom Prediction
 on:
   push:
     branches:
-      - main  # Trigger on push to the main branch
+      - main
   pull_request:
     branches:
-      - main  # Trigger on pull requests targeting the main branch
-  workflow_dispatch:  # Allows manual triggering from the GitHub UI
+      - main
+  workflow_dispatch:  # Allows manual triggering from GitHub UI
 
 jobs:
   mlflow-job:
@@ -17,34 +17,40 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    # Step 1: Set up Miniconda
-    - name: Set up Conda
+    # Step 1: Clear any previous conda cache (optional)
+    - name: Clear Conda cache
+      run: |
+        rm -rf ~/.conda
+        rm -rf ~/miniconda
+
+    # Step 2: Install Miniconda (if necessary)
+    - name: Set up Miniconda
       uses: conda-incubator/setup-miniconda@v2
       with:
-        conda-version: "4.10.3"  # Use a compatible version of Conda
+        conda-version: "4.10.3"  # Use a stable version
         environment-file: conda.yaml  # Use conda.yaml to create environment
         auto-activate-base: false  # Don't automatically activate the base environment
 
-    # Step 2: Install dependencies from conda.yaml
+    # Step 3: Install dependencies from conda.yaml
     - name: Install dependencies with Conda
       run: |
         conda env create -f conda.yaml  # Create conda environment from conda.yaml
         conda activate disease-symptom-prediction-env  # Activate the created environment
         conda list  # Verify installed packages
 
-    # Step 3: Run MLflow project
+    # Step 4: Run MLflow project
     - name: Run MLflow Project
       run: |
         conda activate disease-symptom-prediction-env  # Activate the environment
         mlflow run .  # Run the MLflow project
 
-    # Step 4: (Optional) Run tests
+    # Step 5: (Optional) Run tests
     - name: Run tests (optional)
       run: |
         conda activate disease-symptom-prediction-env
         pytest tests  # If you have tests in a "tests" directory
 
-    # Step 5: Archive results (optional)
+    # Step 6: Archive results (optional)
     - name: Archive MLflow run results
       run: |
         mkdir -p mlflow-artifacts
