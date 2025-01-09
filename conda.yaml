@@ -1,16 +1,17 @@
-name: mlflow-ci-env  # Name of the conda environment
+name: disease-symptom-prediction-env  # Name of the environment
 
 channels:
   - defaults
-  - conda-forge
+  - conda-forge  # Add this if you need packages from conda-forge
 
 dependencies:
-  - python=3.8
-  - pip
-  - mlflow  # MLflow version
-  - scikit-learn  # For ML model training
-  - numpy
-  - pandas
-  - matplotlib
+  - python=3.8  # Specify Python version
+  - pip  # Ensure pip is available
+  - mlflow=1.19.0  # Specify the version of MLflow
+  - scikit-learn=0.24.2  # Replace with appropriate version for your project
+  - pandas=1.2.4  # For handling data
+  - numpy=1.20.3  # For numerical operations
+  - matplotlib=3.4.2  # Optional: For data visualization
   - pip:
-      - pytest  # Optional: if you want to run tests
+      - flask  # Example: if you're using Flask for API in your project
+      - pytest==6.2.3  # Optional: for testing
