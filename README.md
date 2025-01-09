@@ -119,8 +119,6 @@ which are located `src/project_name/steps` has `data_loader`: to load data from 
 ## Next Step:
 
 - Best-practices
-- Tests
-- Try to deploy on cloud
 - Monitor the model performance
 - Ci/Cd pipline for deployment and monitoring
 
