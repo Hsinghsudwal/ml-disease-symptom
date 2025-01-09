@@ -33,8 +33,38 @@ jobs:
     - name: Run MLflow Project
       run: |
         # Start MLflow server if needed (optional)
-        # mlflow server --host 0.0.0.0 --port 5000 &
+        mlflow server --host 0.0.0.0 --port 5000 &
         
         # Run your MLflow project or MLflow script
         mlflow run . 
+
+
+
+
+
+
+    # Step 2: Install dependencies from conda.yaml
+    - name: Install dependencies with Conda
+      run: |
+        conda env create -f conda.yaml  # Create conda environment from conda.yaml
+        conda activate mlflow-ci-env  # Activate the created environment
+
+    # Step 3: Run MLflow project
+    - name: Run MLflow Project
+      run: |
+        conda activate mlflow-ci-env  # Ensure the environment is activated
+        mlflow run . -P alpha=0.1 -P l1_ratio=0.7  # Run MLflow project with parameters
+
+    # Step 4: Run tests (optional)
+    - name: Run tests (optional)
+      run: |
+        conda activate mlflow-ci-env
+        pytest tests  # Run tests in the "tests" directory
+
+    # Step 5: Archive the results (optional)
+    - name: Archive MLflow run results (optional)
+      run: |
+        mkdir -p mlflow-artifacts
+        cp -r mlruns ./mlflow-artifacts
+
 
