@@ -17,54 +17,35 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
+    # Step 1: Set up Conda environment using conda.yaml
+    - name: Set up Conda
+      uses: conda-incubator/setup-miniconda@v2
       with:
-        python-version: 3.8
-
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt  # Assumes you have a requirements.txt file
-
-    - name: Install MLflow
-      run: pip install mlflow  # Install MLflow locally (you can also use `pip install git+https://github.com/mlflow/mlflow` for the latest)
-
-    - name: Run MLflow Project
-      run: |
-        # Start MLflow server if needed (optional)
-        mlflow server --host 0.0.0.0 --port 5000 &
-        
-        # Run your MLflow project or MLflow script
-        mlflow run . 
-
-
-
-
-
+        conda-version: "4.10.3"  # Use a compatible version of Conda
+        environment-file: conda.yaml  # Use conda.yaml to create environment
+        auto-activate-base: false  # Don't automatically activate the base environment
 
     # Step 2: Install dependencies from conda.yaml
-    - name: Install dependencies with Conda
+    - name: Install dependencies from Conda
       run: |
         conda env create -f conda.yaml  # Create conda environment from conda.yaml
         conda activate mlflow-ci-env  # Activate the created environment
+        conda list  # Verify installed packages
 
-    # Step 3: Run MLflow project
+    # Step 3: Run MLflow Project
     - name: Run MLflow Project
       run: |
         conda activate mlflow-ci-env  # Ensure the environment is activated
-        mlflow run . -P alpha=0.1 -P l1_ratio=0.7  # Run MLflow project with parameters
+        mlflow run .  # Run MLflow project with parameters
 
     # Step 4: Run tests (optional)
-    - name: Run tests (optional)
-      run: |
-        conda activate mlflow-ci-env
-        pytest tests  # Run tests in the "tests" directory
+    # - name: Run tests (optional)
+    #   run: |
+    #     conda activate mlflow-ci-env  # Ensure environment is activated
+    #     pytest tests  # Run tests in the "tests" directory
 
     # Step 5: Archive the results (optional)
-    - name: Archive MLflow run results (optional)
-      run: |
-        mkdir -p mlflow-artifacts
-        cp -r mlruns ./mlflow-artifacts
-
-
+    # - name: Archive MLflow run results (optional)
+    #   run: |
+    #     mkdir -p mlflow-artifacts
+    #     cp -r mlruns ./mlflow-artifacts

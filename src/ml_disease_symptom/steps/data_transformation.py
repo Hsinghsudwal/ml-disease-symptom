@@ -47,5 +47,3 @@ class DataTransformation:
 
         except Exception as e:
             raise e
-
-

@@ -50,7 +50,9 @@ class DataLoader:
             # Define deployment path and save data
             monitor_path = param["monitor"]
             os.makedirs(monitor_path, exist_ok=True)
-            dataset.to_csv(os.path.join(monitor_path, (param["disease_csv"])), index=False)
+            dataset.to_csv(
+                os.path.join(monitor_path, (param["disease_csv"])), index=False
+            )
 
             print("Data loaded completed")
             return train_data_set, test_data_set

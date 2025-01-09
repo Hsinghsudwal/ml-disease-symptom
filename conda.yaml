@@ -1,15 +1,16 @@
+name: mlflow-ci-env  # Name of the conda environment
+
 channels:
-- conda-forge
+  - defaults
+  - conda-forge
+
 dependencies:
-- python=3.11.0
-- pip<=24.2
-- pip:
-  - mlflow==2.19.0
-  - cloudpickle==3.1.0
-  - jaraco-collections==5.1.0
-  - numpy==2.0.2
-  - pandas==2.2.3
-  - psutil==6.1.1
-  - scikit-learn==1.6.0
-  - scipy==1.14.1
-name: mlflow-env
+  - python=3.8
+  - pip
+  - mlflow=1.19.0  # MLflow version
+  - scikit-learn=0.24.2  # For ML model training
+  - numpy=1.20.3
+  - pandas=1.2.4
+  - matplotlib=3.4.2
+  - pip:
+      - pytest==6.2.3  # Optional: if you want to run tests
