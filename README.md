@@ -12,7 +12,7 @@
 
 ## Problem Statement
 
-To create a machine learning system that can predict diseases based on the symptoms provided by a user. In healthcare this application can assists in early diagnosis, help make them informed decisions and deliver treatment. Then create streamlit application that use model that in production to predict disease based on symptoms. Deploy on docker container. The dataset is taken from kaggle [dataset](https://www.kaggle.com/datasets/itachi9604disease-symptom-description-dataset).
+To create a machine learning system that can predict diseases based on the symptoms provided by a user. In healthcare this application can assists in early diagnosis, help make them informed decisions and deliver treatment. Then create streamlit application, use model that is in production to predict disease based on symptoms. Deploy on docker container. The dataset is taken from kaggle [dataset](https://www.kaggle.com/datasets/itachi9604disease-symptom-description-dataset).
 
 
 ## Setup
@@ -114,12 +114,10 @@ which are located `src/project_name/steps` has `data_loader`: to load data from 
 **Steps**: Create Streamlit app to perform these tasks locally
 1. Track Model Performance
 2. Monitor Prediction Drift
-3. Monitor Input Data Quality
 
 ## Next Step:
 
 - Best-practices
-- Monitor the model performance
 - Ci/Cd pipline for deployment and monitoring
 
 
