@@ -1,4 +1,4 @@
-# Kedro: ML Disease Prediction Symptom
+# ML Disease Symptom
 
 ## Table of Content
 - [Problem Statement](#problem-statement)
@@ -6,14 +6,18 @@
 - [Development](#development)
 - [Orchestration](#orchestration)
 - [Deployment](#deployment)
+- [Monitor](#monitor)
+- [CI-CD](#ci-cd)
 
 
 ## Problem Statement
 
-Edit
+To create a machine learning system that can predict diseases based on the symptoms provided by a user. In healthcare this application can assists in early diagnosis, help make them informed decisions and deliver treatment. Then create streamlit application that use model that in production to predict disease based on symptoms. Deploy on docker container. The dataset is taken from kaggle [dataset](https://www.kaggle.com/datasets/itachi9604disease-symptom-description-dataset).
+
 
 ## Setup
-**Installation: Clone the repository** `git clone repo`
+
+**local installation: Clone the repository** `git clone https://github.com/Hsinghsudwal/ml-disease-symptom.git`
 
 1. Set up Environment for managing libraries and running python scripts.
    ```bash
@@ -32,39 +36,96 @@ Edit
    ```
 
 ## Development
-**With Kedro and notebooks:**
-After installing `requirements.txt`, which containes `kedro jupyter` or `kedro ipython` to run your notebook provides these variables in scope: `catalog`, `context`, `pipelines` and `session`.
+
+**Run Jupyter Notebook:** On the terminal, from your main project directory to
+
+   ```
+   cd notebook
+   jupyter lab
+   ```
+`notebook.py` to perform data loaded, preprocessing, EDA, model selection: classification problem, model training, model evaluation: model's performance
 
 ## Orchestration
 **src**:
 
-Framework: Kedro
+From jupyter notebook to modular code. To perform pipeline functions: 
 
-**How to run your Kedro pipeline**
+which are located `src/project_name/steps` has `data_loader`: to load data from various sources in this case `.csv` file.
 
-You can run Kedro project with:
-```bash
-kedro run --pipeline name
-```
+`data_prep`: is to combine data sources to one `.csv` file.
+
+`data_validate`: to validate if data feature are within 5% or not (ie. null hypothesis (H0): There is no effect or difference).
+
+`data_transformation`: output train and test data for model selection.
+`train_model`: with sklear-pipeline fuction combine feature extraction and ensemble technique to form output model.
+
+`evaluate_model`: with model performance, save the model to mlflow, register the model, stage the model for testing, archived the production model, production the staging model and download the production model that can be used in deployment.
+
+**How to run pipeline:**
+   ```bash
+   python run.py
+   ```
 
 ## Deployment
-Flask or Streamlit
+**Creating Docker image and Streamlit application**:
 
+**Steps:** From the main project directory create `directory deployment`. Then `cd deployment`.
+1. After running the script `python run.py`, a `disease.csv` file is created in the   `deployment` directory.
 
+2. Create script to run streamlit `app.py`. When completed run via
+   ```bash
+   Streamlit run app.py
+   ```
 
-
-
-
-
-## How to test your Kedro project
-
-Have a look at the files `src/tests/test_run.py` and `src/tests/pipelines/data_science/test_pipeline.py` for instructions on how to write your tests. Run the tests as follows:
-
+3. **DOCKER:** From the main project directory `cd deployment`.
+* Create docker file for container!
+ ```
+    FROM python 
+    WORKDIR
+    COPY
+    RUN
+    RUN
+    EXPOSE
+    CMD
 ```
-pytest
-```
 
-To configure the coverage threshold, look at the `.coveragerc` file.
+3. Docker -check image to see if docker is install and/or working on your machine
+   ```bash
+   docker images
+   ```
+4. Build Docker
+   ```bash
+   docker build -t app .
+   ```
+5. Running Docker 
+   ```bash
+   docker run it --rm -p 8501:8501 app
+
+   ```
+   ```
+   8501:8501
+   host port:container port
+   ```
+   or detach running flag -d
+
+   `docker run -it -d --rm -p 8501:8501 app`
+
+## Monitor
+**Steps**: Create Streamlit app to perform these tasks locally
+1. Track Model Performance
+2. Monitor Prediction Drift
+3. Monitor Input Data Quality
+
+## Next Step:
+
+- Best-practices
+- Tests
+- Try to deploy on cloud
+- Monitor the model performance
+- Ci/Cd pipline for deployment and monitoring
+
+
+
 
 
 

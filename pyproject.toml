@@ -1,0 +1,18 @@
+[build-system]
+requires = [ "setuptools",]
+build-backend = "setuptools.build_meta"
+
+[project]
+requires-python = ">=3.11"
+name = "ml_disease_symptom"
+readme = "README.md"
+dynamic = ["dependencies"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = "requirements.txt"}
+
+
+[project.scripts]
+ml-disease-symptom = "ml_disease_symptom.__main__:main"
+
+

@@ -1,0 +1,9 @@
+name: disease-symptom-prediction
+
+# Conda environment or requirements file can be specified here
+conda_env: conda.yaml  # (You can also specify requirements.txt instead)
+
+# Entry points: functions that can be run as part of this project
+entry_points:
+  main:
+    command: "python run.py"
