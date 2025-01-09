@@ -17,25 +17,31 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    # Step 1: Set up Conda environment using conda.yaml
-    - name: Set up Conda
-      uses: conda-incubator/setup-miniconda@v2
+    # Step 1: Set up Python
+    - name: Set up Python
+      uses: actions/setup-python@v2
       with:
-        conda-version: "4.10.3"  # Use a compatible version of Conda
-        environment-file: conda.yaml  # Use conda.yaml to create environment
-        auto-activate-base: false  # Don't automatically activate the base environment
-
-    # Step 2: Install dependencies from conda.yaml
-    - name: Install dependencies from Conda
+        python-version: 3.8  # Specify the Python version you want to use
+    
+    # Step 2: Install dependencies
+    - name: Install dependencies
       run: |
         conda env create -f conda.yaml  # Create conda environment from conda.yaml
         conda activate mlflow-ci-env  # Activate the created environment
-        conda list  # Verify installed packages
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt  # Install project dependencies
+
+    # # Step 2: Install dependencies from conda.yaml
+    # - name: Install dependencies from Conda
+    #   run: |
+    #     conda env create -f conda.yaml  # Create conda environment from conda.yaml
+    #     conda activate mlflow-ci-env  # Activate the created environment
+    #     conda list  # Verify installed packages
 
     # Step 3: Run MLflow Project
     - name: Run MLflow Project
       run: |
-        conda activate mlflow-ci-env  # Ensure the environment is activated
+        # conda activate mlflow-ci-env  # Ensure the environment is activated
         mlflow run .  # Run MLflow project with parameters
 
     # Step 4: Run tests (optional)
@@ -45,7 +51,33 @@ jobs:
     #     pytest tests  # Run tests in the "tests" directory
 
     # Step 5: Archive the results (optional)
-    # - name: Archive MLflow run results (optional)
-    #   run: |
-    #     mkdir -p mlflow-artifacts
-    #     cp -r mlruns ./mlflow-artifacts
+    - name: Archive MLflow run results (optional)
+      run: |
+        mkdir -p mlflow-artifacts
+        cp -r mlruns ./mlflow-artifacts
+
+
+
+    
+
+    # Step 2: Install dependencies
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt  # Install project dependencies
+
+    # Step 3: Install MLflow (optional, if not installed in requirements.txt)
+    - name: Install MLflow
+      run: pip install mlflow  # If MLflow is not included in requirements.txt
+
+    # Step 4: Run MLflow project
+    - name: Run MLflow Project
+      run: |
+        mlflow run . -P alpha=0.1 -P l1_ratio=0.7  # Run the MLflow project with parameters
+
+    # Step 5: Run tests (optional, if you have tests)
+    - name: Run tests (optional)
+      run: |
+        pytest tests  # If you have tests in a "tests" directory, run them with pytest
+
+    
