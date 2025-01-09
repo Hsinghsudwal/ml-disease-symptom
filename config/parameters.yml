@@ -1,0 +1,52 @@
+name: Pipeline
+version: 1.0
+description: "pipelines_tracking"
+
+
+# Output 
+datas:
+  data: "data"
+  raw: "01_raw"
+  train_data: "train_data.csv"
+  test_data: "test_data.csv"
+  validate: "02_validate"
+  train_data_vali: "train_data_vali.csv"
+  test_data_vali: "test_data_vali.csv"
+  transform: "03_transform"
+  train_data_trans: "train_data_trans.csv"
+  test_data_trans: "test_data_trans.csv"
+  model: "04_model"
+  model_name: "model.joblib"
+  metics: "05_metric"
+  metric_name: "metic.json"
+
+deployment: "deployment"
+disease: "disease.csv"
+model_deploy: "loaded_model.joblib"
+
+monitor: "monitor"
+disease_csv: "disease.csv"
+monitor_model: "monitor.joblib"
+
+# MLflow Server URI
+server:
+  uri: http://localhost:5000 #mlruns #sqlite:///mlruns.db
+
+# Experiment configuration
+experiment:
+  name: disease_experiment
+  tracking_uri: http://localhost:5000 #sqlite:///mlruns.db #mlruns
+
+# Model configuration
+model:
+  name: "ml_disease_symptom"
+
+# Pipeline parameters
+pipeline:
+  function: main
+  script: run.py  
+
+ui:
+  port: "5000" 
+  host: "127.0.0.1" 
+
