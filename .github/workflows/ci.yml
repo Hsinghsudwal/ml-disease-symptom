@@ -17,17 +17,19 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    # Step 1: Clear any previous conda cache (optional)
-    - name: Clear Conda cache
+    # Step 1: Install Python 3.8 manually (if necessary)
+    - name: Install Python 3.8 manually
       run: |
-        rm -rf ~/.conda
-        rm -rf ~/miniconda
+        sudo apt-get update
+        sudo apt-get install python3.8 python3.8-dev python3.8-distutils python3.8-venv python3-pip
+        python3.8 --version
+        python3 -m pip install --upgrade pip
 
     # Step 2: Install Miniconda (if necessary)
     - name: Set up Miniconda
       uses: conda-incubator/setup-miniconda@v2
       with:
-        conda-version: "4.10.3"  # Use a stable version
+        conda-version: "4.9.2"  # Use a stable Conda version (e.g., 4.9.x)
         environment-file: conda.yaml  # Use conda.yaml to create environment
         auto-activate-base: false  # Don't automatically activate the base environment
 
