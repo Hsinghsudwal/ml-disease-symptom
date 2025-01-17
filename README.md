@@ -6,8 +6,6 @@
 - [Development](#development)
 - [Orchestration](#orchestration)
 - [Deployment](#deployment)
-- [Monitor](#monitor)
-- [CI-CD](#ci-cd)
 
 
 ## Problem Statement
@@ -110,13 +108,8 @@ which are located `src/project_name/steps` has `data_loader`: to load data from 
 
    `docker run -it -d --rm -p 8501:8501 app`
 
-## Monitor
-**Steps**: Create Streamlit app to perform these tasks locally
-1. Track Model Performance
-2. Monitor Prediction Drift
-
 ## Next Step:
-
+-Monitor (Track Model Performance, Monitor Prediction Drift)
 - Best-practices
 - Ci/Cd pipline for deployment and monitoring
 

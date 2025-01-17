@@ -1,0 +1,13 @@
+# version: 0.1
+# tables:
+  # - name: disease_symptoms
+    columns:
+      - name: Disease
+        type: object
+      - name: Symptom
+        type: object
+      - name: Precaution
+        type: object
+      - name: Description
+        type: object
+      
